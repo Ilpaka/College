@@ -1,59 +1,461 @@
-#app {
-    height: 100vh;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto+Mono:wght@300;400;500&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#App {
+    min-height: 100vh;
+    background: 
+        radial-gradient(ellipse at top, #1a1a2e 0%, #0f0f23 50%, #000000 100%),
+        linear-gradient(45deg, #000000 0%, #16213e 25%, #0f3460 50%, #16213e 75%, #000000 100%);
+    background-attachment: fixed;
+    color: #ffffff;
+    font-family: 'Roboto Mono', monospace;
+    overflow-x: hidden;
+}
+
+.neon-container {
+    position: relative;
+    min-height: 100vh;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+/* Header Styles */
+.app-header {
     text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 10;
 }
 
-#logo {
+.neon-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    font-weight: 900;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.neon-text {
+    color: #00ff88;
+    text-shadow: 
+        0 0 5px #00ff88,
+        0 0 10px #00ff88,
+        0 0 15px #00ff88,
+        0 0 20px #00ff88;
+    animation: neon-flicker 2s infinite alternate;
+}
+
+.neon-accent {
+    color: #ff0088;
+    text-shadow: 
+        0 0 5px #ff0088,
+        0 0 10px #ff0088,
+        0 0 15px #ff0088,
+        0 0 20px #ff0088;
+    animation: neon-pulse 1.5s infinite alternate;
+}
+
+.subtitle {
+    color: #88ccff;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+/* Main Content */
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+/* Control Panel */
+.control-panel {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.control-group {
+    margin-bottom: 2rem;
+}
+
+.control-label {
     display: block;
-    width: 50%;
-    height: 50%;
-    margin: auto;
-    padding: 10% 0 0;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-origin: content-box;
+    color: #88ccff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.result {
-    height: 20px;
-    line-height: 20px;
-    margin: 1.5rem auto;
+/* Size Controls */
+.size-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.input-box .btn {
-    width: 60px;
-    height: 30px;
-    line-height: 30px;
-    border-radius: 3px;
-    border: none;
-    margin: 0 0 0 20px;
-    padding: 0 8px;
+.neon-slider {
+    flex: 1;
+    height: 8px;
+    background: linear-gradient(90deg, #ff0088, #00ff88);
+    border-radius: 4px;
+    outline: none;
+    -webkit-appearance: none;
     cursor: pointer;
 }
 
-.input-box .btn:hover {
-    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
-    color: #333333;
+.neon-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 
+        0 0 10px #00ff88,
+        0 0 20px #00ff88;
+    transition: all 0.3s ease;
 }
 
-.input-box .input {
-    border: none;
-    border-radius: 3px;
-    outline: none;
-    height: 30px;
-    line-height: 30px;
-    padding: 0 10px;
-    background-color: rgba(240, 240, 240, 1);
-    -webkit-font-smoothing: antialiased;
+.neon-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 
+        0 0 15px #00ff88,
+        0 0 30px #00ff88;
 }
 
-.input-box .input:hover {
-    border: none;
-    background-color: rgba(255, 255, 255, 1);
+.size-display {
+    color: #00ff88;
+    font-weight: bold;
+    font-size: 1.2rem;
+    min-width: 40px;
+    text-align: center;
+    text-shadow: 0 0 10px #00ff88;
 }
 
-.input-box .input:focus {
+/* Algorithm Selector */
+.algorithm-selector {
+    display: grid;
+    gap: 1rem;
+}
+
+.algorithm-card {
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.algorithm-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent-color);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 20px var(--accent-glow);
+}
+
+.algorithm-card.selected {
+    border-color: var(--accent-color);
+    background: linear-gradient(135deg, var(--accent-glow), rgba(255, 255, 255, 0.05));
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 30px var(--accent-glow),
+        inset 0 0 20px var(--accent-glow);
+}
+
+.algo-name {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+.neon-button {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #00ff88, #00cc66);
     border: none;
-    background-color: rgba(255, 255, 255, 1);
+    border-radius: 12px;
+    color: #000000;
+    font-family: 'Roboto Mono', monospace;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-button.sort {
+    background: linear-gradient(135deg, #ff0088, #cc0066);
+    color: #ffffff;
+}
+
+.neon-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        0 0 30px currentColor;
+}
+
+.neon-button:active {
+    transform: translateY(-1px);
+}
+
+.neon-button.loading {
+    opacity: 0.7;
+    cursor: not-allowed;
+    animation: loading-pulse 1s infinite;
+}
+
+.neon-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Results Section */
+.results-section {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.status-display {
+    margin-bottom: 2rem;
+}
+
+.status-text {
+    font-size: 1.2rem;
+    color: #88ccff;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(136, 204, 255, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #88ccff;
+}
+
+.performance-stats {
+    display: flex;
+    gap: 2rem;
+}
+
+.stat {
+    color: #00ff88;
+    font-weight: 500;
+    text-shadow: 0 0 5px #00ff88;
+}
+
+/* Arrays Display */
+.arrays-display {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.array-container {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.array-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.array-title.original {
+    color: #ff0088;
+    text-shadow: 0 0 10px #ff0088;
+}
+
+.array-title.sorted {
+    color: #00ff88;
+    text-shadow: 0 0 10px #00ff88;
+}
+
+.array-content {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    word-break: break-all;
+    line-height: 1.5;
+}
+
+/* Floating Particles */
+.floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #00ff88;
+    border-radius: 50%;
+    animation: float 20s infinite linear;
+}
+
+.particle-0 { 
+    background: #00ff88;
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 20s;
+}
+
+.particle-1 { 
+    background: #ff0088;
+    left: 30%;
+    animation-delay: -5s;
+    animation-duration: 25s;
+}
+
+.particle-2 { 
+    background: #88ccff;
+    left: 70%;
+    animation-delay: -10s;
+    animation-duration: 30s;
+}
+
+.particle-3 { 
+    background: #ffaa00;
+    left: 90%;
+    animation-delay: -15s;
+    animation-duration: 22s;
+}
+
+/* Animations */
+@keyframes neon-flicker {
+    0%, 100% {
+        text-shadow: 
+            0 0 5px #00ff88,
+            0 0 10px #00ff88,
+            0 0 15px #00ff88,
+            0 0 20px #00ff88;
+    }
+    50% {
+        text-shadow: 
+            0 0 2px #00ff88,
+            0 0 5px #00ff88,
+            0 0 8px #00ff88,
+            0 0 12px #00ff88;
+    }
+}
+
+@keyframes neon-pulse {
+    0% {
+        text-shadow: 
+            0 0 5px #ff0088,
+            0 0 10px #ff0088,
+            0 0 15px #ff0088,
+            0 0 20px #ff0088;
+    }
+    100% {
+        text-shadow: 
+            0 0 8px #ff0088,
+            0 0 16px #ff0088,
+            0 0 24px #ff0088,
+            0 0 32px #ff0088;
+    }
+}
+
+@keyframes loading-pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .neon-title {
+        font-size: 2.5rem;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .performance-stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .control-panel, .results-section {
+        padding: 1.5rem;
+    }
+
+    
 }
