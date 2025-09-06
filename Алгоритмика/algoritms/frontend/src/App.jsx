@@ -1,78 +1,57 @@
 import { useState } from 'react';
+
 import { 
   GenerateSlice, 
   BubbleSort, 
   QuickSort, 
-  ParallelBatcherSort, 
-  TournamentSort, 
-  BinaryInsertionSort 
-} from '../wailsjs/go/main/App';
+  ShellSort,
+  InsertionSort
+} from '../wailsjs/go/main/App.js';
 
 function App() {
-  const [originalArray, setOriginalArray] = useState([]);
-  const [sortedArray, setSortedArray] = useState([]);
-  const [selectedSort, setSelectedSort] = useState('bubble');
-  const [arraySize, setArraySize] = useState(100);
-  const [executionTime, setExecutionTime] = useState(null);
+  const [slice, setSlice] = useState([]);
+  const [sorted, setSorted] = useState([]);
+  const [executionTime, setExecutionTime] = useState('');
+  const [selectedMethod, setSelectedMethod] = useState('quick');
 
-
-  // Доступные алгоритмы
   const sortingMethods = [
     { value: 'bubble', label: 'Пузырьковая сортировка', func: BubbleSort },
     { value: 'quick', label: 'Быстрая сортировка', func: QuickSort },
-    { value: 'batcher', label: 'Параллельная сортировка Бэтчера', func: ParallelBatcherSort },
-    { value: 'tournament', label: 'Турнирная сортировка', func: TournamentSort },
-    { value: 'binary', label: 'Бинарная сортировка вставками', func: BinaryInsertionSort }
+    { value: 'shell', label: 'Сортировка шелла', func: ShellSort },
+    { value: 'insertion', label: 'Сортировка выбором', func: InsertionSort },
   ];
 
-  // Генерация массива
-  const generateArray = async () => {
-    const newArray = await GenerateSlice(arraySize);
-    setOriginalArray(newArray);
-    setSortedArray([]); // Очищаем отсортированный массив
-    setExecutionTime(null);
+  const generateSlice = async () => {
+    const newSlice = await GenerateSlice(10000);
+    setSlice(newSlice);
+    setSorted([]);
+    setExecutionTime('');
   };
 
-  // Сортировка массива
-  const sortArray = async () => {
-    if (originalArray.length === 0) {
-      alert('Сначала сгенерируйте массив!');
+  const sorter = async () => {
+    if (slice.length === 0) {
+      alert("Сгенерируйте массив");
       return;
     }
-
-    const selectedMethod = sortingMethods.find(method => method.value === selectedSort);
-    const startTime = performance.now();
-    const result = await selectedMethod.func(originalArray);
-    const endTime = performance.now();
-    const timeTaken = endTime - startTime;
-    setSortedArray(result);
-    setExecutionTime(timeTaken);
+    
+    const selectedMethodObj = sortingMethods.find(method => method.value === selectedMethod);
+    
+    const start = performance.now();
+    const result = await selectedMethodObj.func(slice);
+    const end = performance.now();
+    
+    setSorted(result);
+    setExecutionTime(`${(end - start).toFixed(2)} ms`);
+    console.log(`Время выполнения: ${(end - start).toFixed(2)} ms`);
   };
 
   return (
     <div>
-      <h1>Алгоритмы сортировки</h1>
-      
-      <div>
-        <label>
-          Размер массива: 
-          <input
-            type="number"
-            value={arraySize}
-            onChange={(e) => setArraySize(parseInt(e.target.value) || 100)}
-            min="10"
-            max="1000"
-          />
-        </label>
-      </div>
+      <h1>Тестируем алгоритмы сортировки</h1>
 
       <div>
-        <label>
-          Алгоритм сортировки:
-          <select 
-            value={selectedSort} 
-            onChange={(e) => setSelectedSort(e.target.value)}
-          >
+        <label>Выберите алгоритм:
+          <select value={selectedMethod} onChange={e => setSelectedMethod(e.target.value)}>
             {sortingMethods.map(method => (
               <option key={method.value} value={method.value}>
                 {method.label}
@@ -80,42 +59,22 @@ function App() {
             ))}
           </select>
         </label>
-      </div>
 
-      <div>
-        <button onClick={generateArray}>
-          Сгенерировать массив
-        </button>
-        
-        <button onClick={sortArray}>
-          Отсортировать
-        </button>
-      </div>
-
-    {executionTime !== null && (
-    <div>
-          <h3>⏱️ Время выполнения: {executionTime.toFixed(2)} мс</h3>
-          <p>Алгоритм: {sortingMethods.find(m => m.value === selectedSort)?.label}</p>
+        <div>
+          <button onClick={generateSlice}>
+            Сгенерировать
+          </button>
+          <button onClick={sorter}>
+            Сортировать
+          </button>
         </div>
-      )}
-      <div>
-        <h3>Исходный массив:</h3>
-        <textarea
-          readOnly
-          value={originalArray.length > 0 ? originalArray.join(', ') : 'Массив не сгенерирован'}
-          rows="5"
-          cols="80"
-        />
-      </div>
 
-      <div>
-        <h3>Отсортированный массив:</h3>
-        <textarea
-          readOnly
-          value={sortedArray.length > 0 ? sortedArray.join(', ') : 'Массив не отсортирован'}
-          rows="5"
-          cols="80"
-        />
+        {executionTime && <h3>Время выполнения: {executionTime}</h3>}
+
+        <div>
+          <h3>Исходный массив: [{slice.join(', ')}]</h3>
+          <h3>Отсортированный: [{sorted.join(', ')}]</h3>
+        </div>
       </div>
     </div>
   );

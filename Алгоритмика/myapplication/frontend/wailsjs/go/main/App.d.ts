@@ -9,8 +9,12 @@ export function GenerateSlice(arg1:number):Promise<Array<number>>;
 
 export function Greet(arg1:string):Promise<string>;
 
+export function Insertion_sort(arg1:Array<number>):Promise<Array<number>>;
+
 export function ParallelBatcherSort(arg1:Array<number>):Promise<Array<number>>;
 
 export function QuickSort(arg1:Array<number>):Promise<Array<number>>;
+
+export function Shell_sort(arg1:Array<number>):Promise<Array<number>>;
 
 export function TournamentSort(arg1:Array<number>):Promise<Array<number>>;

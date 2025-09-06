@@ -173,52 +173,9 @@ func (a *App) GenerateSlice(size int) []int {
 	rand.Seed(time.Now().UnixNano())
 
 	for i := 0; i < size; i++ {
-		slice = append(slice, rand.Intn(1000))
+		slice = append(slice, rand.Intn(100))
 	}
 	return slice
-}
-
-// Пузырьковая сортировка (публичная функция для фронтенда)
-func (a *App) BubbleSort(slice []int) []int {
-	result := append([]int{}, slice...)
-
-	for i := 0; i < len(result); i++ {
-		for j := 0; j < len(result)-i-1; j++ {
-			if result[j] > result[j+1] {
-				result[j], result[j+1] = result[j+1], result[j]
-			}
-		}
-	}
-	return result
-}
-
-func quickSort(arr []int, low, high int) {
-	if low < high {
-		// Разделяем массив и получаем позицию опорного элемента
-		pivotIndex := partition(arr, low, high)
-
-		// Рекурсивно сортируем левую и правую части
-		quickSort(arr, low, pivotIndex-1)
-		quickSort(arr, pivotIndex+1, high)
-	}
-}
-
-func partition(arr []int, low, high int) int {
-	// Выбираем последний элемент как опорный
-	pivot := arr[high]
-	i := low - 1 // Индекс меньшего элемента
-
-	for j := low; j < high; j++ {
-		// Если текущий элемент меньше или равен опорному
-		if arr[j] <= pivot {
-			i++
-			arr[i], arr[j] = arr[j], arr[i]
-		}
-	}
-
-	// Ставим опорный элемент на правильное место
-	arr[i+1], arr[high] = arr[high], arr[i+1]
-	return i + 1
 }
 
 type TournamentNode struct {
@@ -333,7 +290,6 @@ func TournamentSortAdvanced(arr []int) []int {
 	return result
 }
 
-// binaryInsertionSortOptimized с ранним выходом для уже отсортированных элементов
 func binaryInsertionSortOptimized(arr []int) {
 	for i := 1; i < len(arr); i++ {
 		val := arr[i]
@@ -363,19 +319,6 @@ func binarySearch(arr []int, val int, start int, end int) int {
 	return start
 }
 
-// QuickSort - публичная функция для фронтенда
-func (a *App) QuickSort(slice []int) []int {
-	if len(slice) <= 1 {
-		return append([]int{}, slice...)
-	}
-
-	result := make([]int, len(slice))
-	copy(result, slice)
-
-	quickSort(result, 0, len(result)-1)
-	return result
-}
-
 // TournamentSort - публичная функция для фронтенда
 func (a *App) TournamentSort(slice []int) []int {
 	return TournamentSortAdvanced(slice)
@@ -392,4 +335,81 @@ func (a *App) BinaryInsertionSort(slice []int) []int {
 
 	binaryInsertionSortOptimized(result)
 	return result
+}
+
+func (a *App) Shell_sort(slice []int) []int {
+	slice = append([]int{}, slice...)
+	step := len(slice) / 2
+
+	for step > 0 {
+		for i := step; i < len(slice); i++ {
+			temp := slice[i]
+			fmt.Println(temp)
+			j := i
+			fmt.Println("i=", i, "j=", j)
+			fmt.Println("slice[j-step]", slice[j-step])
+			for j >= step && slice[j-step] > temp {
+				slice[j] = slice[j-step]
+				j -= step
+			}
+
+			slice[j] = temp
+			fmt.Println("slice[j]", slice[j])
+		}
+
+		step /= 2
+	}
+
+	return slice
+}
+
+func (a *App) QuickSort(slice []int) []int {
+	slice = append([]int{}, slice...)
+
+	if len(slice) <= 1 {
+		return slice
+	}
+
+	pivot := slice[0]
+	less := []int{}
+	more := []int{}
+
+	for i := 1; i < len(slice); i++ {
+		if slice[i] < pivot {
+			less = append(less, slice[i])
+		} else {
+			more = append(more, slice[i])
+		}
+	}
+
+	newslice := append(append(a.QuickSort(less), pivot), a.QuickSort(more)...)
+
+	return newslice
+}
+
+func (a *App) BubbleSort(slice []int) []int {
+	slice = append([]int{}, slice...)
+	for i := 0; i < len(slice); i++ {
+		for j := 0; j < len(slice)-i-1; j++ {
+			if slice[j] > slice[j+1] {
+				slice[j], slice[j+1] = slice[j+1], slice[j]
+			}
+		}
+	}
+	return slice
+}
+
+func (a *App) Insertion_sort(slice []int) []int {
+	slice = append([]int{}, slice...)
+	for i := 1; i < len(slice); i++ {
+		num := slice[i]
+		j := i - 1
+		for j >= 0 && slice[j] > num {
+			slice[j+1] = slice[j]
+			j--
+
+		}
+		slice[j+1] = num
+	}
+	return slice
 }

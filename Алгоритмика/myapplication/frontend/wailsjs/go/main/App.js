@@ -18,12 +18,20 @@ export function Greet(arg1) {
   return window['go']['main']['App']['Greet'](arg1);
 }
 
+export function Insertion_sort(arg1) {
+  return window['go']['main']['App']['Insertion_sort'](arg1);
+}
+
 export function ParallelBatcherSort(arg1) {
   return window['go']['main']['App']['ParallelBatcherSort'](arg1);
 }
 
 export function QuickSort(arg1) {
   return window['go']['main']['App']['QuickSort'](arg1);
+}
+
+export function Shell_sort(arg1) {
+  return window['go']['main']['App']['Shell_sort'](arg1);
 }
 
 export function TournamentSort(arg1) {
