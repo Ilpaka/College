@@ -8,6 +8,19 @@ import {
   InsertionSort
 } from '../wailsjs/go/main/App.js';
 
+/*************  ✨ Windsurf Command ⭐  *************/
+  /**
+   * @description
+   * App - это React-компонент, который тестирует различные алгоритмы
+   * сортировки.
+   *
+   * @param {Object} props - props-ы, которые передаются из родительского
+   * компонента.
+   *
+   * @return {ReactElement} - React-элемент, который отображает интерфейс
+   * для тестирования алгоритмов.
+   */
+/*******  444192c7-ae4b-443b-aabb-a95f5db4fed3  *******/
 function App() {
   const [slice, setSlice] = useState([]);
   const [sorted, setSorted] = useState([]);

@@ -44,6 +44,41 @@ func (a *App) BubbleSort(slice []int) []int {
 	return slice
 }
 
+//повторение
+// func (a *App) BBsort(slice []int) []int {
+// 	slice = append([]int{}, slice...)
+// 	for i := 0; i <= len(slice); i++ {
+// 		for j := 0; j <= len(slice)-i-1; j++ {
+// 			if slice[j] > slice[j+1] {
+// 				slice[j], slice[j+1] = slice[j+1], slice[j]
+// 			}
+// 		}
+// 	}
+// 	return slice
+// }
+
+// func (a *App) QuickSort(slice []int) []int {
+// 	slice = append([]int{}, slice...)
+
+// 	if len(slice) <= 1 {
+// 		return slice
+// 	}
+
+// 	pivot := slice[0]
+// 	less := []int{}
+// 	more := []int{}
+
+// 	for i := 1; i < len(slice); i++ {
+// 		if slice[i] < pivot {
+// 			less = append(less, slice[i])
+// 		} else {
+// 			more = append(more, slice[i])
+// 		}
+// 	}
+
+// 	return append(append(a.QuickSort(less), pivot), a.QuickSort(more)...)
+// }
+
 func (a *App) QuickSort(slice []int) []int {
 	slice = append([]int{}, slice...)
 
@@ -51,11 +86,14 @@ func (a *App) QuickSort(slice []int) []int {
 		return slice
 	}
 
-	pivot := slice[0]
+	pivot := slice[len(slice)/2]
 	less := []int{}
 	more := []int{}
 
-	for i := 1; i < len(slice); i++ {
+	for i := 0; i < len(slice); i++ {
+		if slice[i] == slice[len(slice)/2] {
+			continue
+		}
 		if slice[i] < pivot {
 			less = append(less, slice[i])
 		} else {
@@ -76,6 +114,21 @@ func (a *App) InsertionSort(slice []int) []int {
 			j--
 		}
 		slice[j+1] = num
+	}
+	return slice
+}
+
+func (a *App) IIsort(slice []int) []int {
+	slice = append([]int{}, slice...)
+
+	for i := 1; i < len(slice); i++ {
+		key := slice[i]
+		j := i - 1 //предыдущий элемент
+		for j >= 0 && slice[j] > key {
+			slice[j+1] = slice[j]
+			j--
+		}
+		slice[j+1] = key
 	}
 	return slice
 }
