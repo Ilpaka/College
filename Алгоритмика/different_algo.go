@@ -34,33 +34,10 @@ func generate_slice(size int) []int {
 	return slice
 }
 
-func bubble_sort(slice []int) []int {
-	slice = append([]int{}, slice...)
-	for i := 0; i < len(slice); i++ {
-		for j := 0; j < len(slice)-i-1; j++ {
-			if slice[j] > slice[j+1] {
-				slice[j], slice[j+1] = slice[j+1], slice[j]
-			}
-		}
-	}
-	return slice
-}
-
-func insertion_sort(slice []int) []int {
-	slice = append([]int{}, slice...)
-	for i := 1; i < len(slice); i++ {
-		num := slice[i]
-		j := i - 1
-		for j >= 0 && slice[j] > num {
-			slice[j+1] = slice[j]
-			j--
-
-		}
-		slice[j+1] = num
-	}
-	return slice
-}
-
+// ? Это рекурсивынй алгоритм, который работает по прринципу разделяй и властвуй.
+// ? Суть в том чтобы взять опорный элемент и потом создать 2 массива с меньшим и большим элементами.
+// ? проделать это рекурсивно и потом собратьвместе
+// ? Один из самых быстрых алгоритмов
 func quick_sort(slice []int) []int {
 	slice = append([]int{}, slice...)
 
@@ -85,6 +62,9 @@ func quick_sort(slice []int) []int {
 	return newslice
 }
 
+// ? СОртровка шелла рабоытате по принципу пар. Мы делим кол-во элементов попалам
+// ?И потом с этим шагом меняем местами элементы. Потом проделываем это пока не станет 1
+// ? И потом проходимся сонртирвкой вставками. Работает быстрее так как мы берём уе почти отсортирвоанный массив
 func shell_sort(slice []int) []int {
 	slice = append([]int{}, slice...)
 	step := len(slice) / 2
@@ -108,5 +88,44 @@ func shell_sort(slice []int) []int {
 		step /= 2
 	}
 
+	return slice
+}
+
+//? Итог:
+//? Преимущества Шелла
+//? Отсутствие стека: не нужна память под рекурсию
+//? Стабильная производительность: нет деградации до O(n²) при плохих данных
+//? Простота реализации: без рекурсии
+//? Преимущества быстрой сортировки
+//? Быстрее в среднем: обычно работает быстрее Шелла
+//? Лучшая асимптотика: O(n log n) против O(n log n)²
+//? Вывод: Быстрая сортировка обычно быстрее, но Шелла надежнее и проще.
+
+//! ДОП
+
+func bubble_sort(slice []int) []int {
+	slice = append([]int{}, slice...)
+	for i := 0; i < len(slice); i++ {
+		for j := 0; j < len(slice)-i-1; j++ {
+			if slice[j] > slice[j+1] {
+				slice[j], slice[j+1] = slice[j+1], slice[j]
+			}
+		}
+	}
+	return slice
+}
+
+func insertion_sort(slice []int) []int {
+	slice = append([]int{}, slice...)
+	for i := 1; i < len(slice); i++ {
+		num := slice[i]
+		j := i - 1
+		for j >= 0 && slice[j] > num {
+			slice[j+1] = slice[j]
+			j--
+
+		}
+		slice[j+1] = num
+	}
 	return slice
 }
